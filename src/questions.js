@@ -2,23 +2,161 @@
 
 const questions = [
   {
-    question: "What is React?",
-    options: ["Library", "Framework", "Language", "Tool"],
-    correctAnswer: "Library",
-    points: 5,
+    question: "Which is the most popular JavaScript framework?",
+    options: ["Angular", "React", "Svelte", "Vue"],
+    correctAnswer: "React",
+    points: 10,
   },
+
   {
-    question: "Which hook is used for managing state?",
-    options: ["useEffect", "useState", "useContext", "useRef"],
-    correctAnswer: "useState",
-    points: 5,
-  },
-  {
-    question: "React is developed by?",
-    options: ["Google", "Facebook", "Microsoft", "Amazon"],
+    question: "Which company invented React?",
+    options: ["Google", "Apple", "Netflix", "Facebook"],
     correctAnswer: "Facebook",
-    points: 5,
+    points: 10,
   },
+
+  {
+    question: "What's the fundamental building block of React apps?",
+    options: ["Components", "Blocks", "Elements", "Effects"],
+    correctAnswer: "Components",
+    points: 10,
+  },
+
+  {
+    question:
+      "What's the name of the syntax we use to describe the UI in React components?",
+    options: ["FBJ", "Babel", "JSX", "ES2015"],
+    correctAnswer: "JSX",
+    points: 10,
+  },
+
+  {
+    question: "How does data flow naturally in React apps?",
+    options: [
+      "From parents to children",
+      "From children to parents",
+      "Both ways",
+      "The developers decides",
+    ],
+    correctAnswer: "From parents to children",
+    points: 10,
+  },
+
+  {
+    question: "How to pass data into a child component?",
+    options: ["State", "Props", "PropTypes", "Parameters"],
+    correctAnswer: "Props",
+    points: 10,
+  },
+
+  {
+    question: "What triggers a UI re-render in React?",
+    options: [
+      "Running an effect",
+      "Passing props",
+      "Updating state",
+      "Adding event listeners to DOM elements",
+    ],
+    correctAnswer: "Updating state",
+    points: 20,
+  },
+
+  {
+    question: 'When do we directly "touch" the DOM in React?',
+    options: [
+      "When we need to listen to an event",
+      "When we need to change the UI",
+      "When we need to add styles",
+      "Almost never",
+    ],
+    correctAnswer: "Almost never",
+    points: 20,
+  },
+
+  {
+    question: "When to use derived state?",
+    options: [
+      "Whenever the state should not trigger a re-render",
+      "Whenever the state can be synchronized with an effect",
+      "Whenever the state should be accessible to all components",
+      "Whenever the state can be computed from another state variable",
+    ],
+    correctAnswer:
+      "Whenever the state can be computed from another state variable",
+    points: 30,
+  },
+
+  {
+    question: "In what situation do we use a callback to update state?",
+    options: [
+      "When updating the state will be slow",
+      "When the updated state is very data-intensive",
+      "When the state update should happen faster",
+      "When the new state depends on the previous state",
+    ],
+    correctAnswer: "When the new state depends on the previous state",
+    points: 30,
+  },
+
+  {
+    question:
+      "If we pass a function to useState, when will that function be called?",
+    options: [
+      "On each re-render",
+      "Each time we update the state",
+      "Only on the initial render",
+      "The first time we update the state",
+    ],
+    correctAnswer: "Only on the initial render",
+    points: 30,
+  },
+
+  {
+    question:
+      "Which hook to use for an API request on the component's initial render?",
+    options: ["useState", "useEffect", "useRef", "useReducer"],
+    correctAnswer: "useEffect",
+    points: 10,
+  },
+
+  {
+    question: "An effect will always run on the initial render.",
+    options: [
+      "True",
+      "It depends on the dependency array",
+      "False",
+      "In depends on the code in the effect",
+    ],
+    correctOption: "True",
+    points: 30,
+  },
+
+  {
+    question: "When will an effect run if it doesn't have a dependency array?",
+    options: [
+      "Only when the component mounts",
+      "Only when the component unmounts",
+      "The first time the component re-renders",
+      "Each time the component is re-rendered",
+    ],
+    correctAnswer: "Each time the component is re-rendered",
+    points: 20,
+  },
+
+  {
+    question: "Which variables should go into the useEffect dependency array?",
+    options: [
+      "Usually none",
+      "All our state variables",
+      "All state and props referenced in the effect",
+      "All variables needed for clean up",
+    ],
+    correctAnswer: "All state and props referenced in the effect",
+    points: 30,
+  },
+
+  
+
   // Add more questions here...
 ];
 
