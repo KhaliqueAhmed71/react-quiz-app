@@ -18,9 +18,9 @@ function App() {
   useEffect(() => {
     if (!isStarted) return;
 
-    console.log("====================================");
-    console.log(totalQuestions);
-    console.log("====================================");
+    
+
+    
 
     const timer = setInterval(() => {
       setTimeLeft((prev) => {
