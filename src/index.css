@@ -1,6 +1,12 @@
 @import url('@fortawesome/fontawesome-free/css/all.min.css');
+@import url('https://fonts.googleapis.com/css2?family=DotGothic16&display=swap');
+
 @import "tailwindcss";
+
 
 html {
   scroll-behavior: smooth;
+}
+.header-title {
+  font-family: 'DotGothic16', sans-serif;
 }
