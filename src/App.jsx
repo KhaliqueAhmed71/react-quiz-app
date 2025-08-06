@@ -18,6 +18,10 @@ function App() {
   useEffect(() => {
     if (!isStarted) return;
 
+    
+
+    
+
     const timer = setInterval(() => {
       setTimeLeft((prev) => {
         if (prev <= 1) {
