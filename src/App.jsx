@@ -8,29 +8,39 @@ function App() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState(null);
   const [score, setScore] = useState(0);
-  const [timeLeft, setTimeLeft] = useState(450); // 7 min 30 sec = 450 seconds
+ const [timeLeft, setTimeLeft] = useState(450); // 7 min 30 sec
+const currentQuestion = questions[currentQuestionIndex];
+const totalQuestions = questions.length;
+const totalScore = questions.reduce((acc, q) => acc + q.points, 0);
 
-  const currentQuestion = questions[currentQuestionIndex];
-  const totalQuestions = questions.length;
-  const totalScore = questions.reduce((acc, q) => acc + q.points, 0);
+// Helper to convert seconds to MM:SS
+const formatTime = (seconds) => {
+  const minutes = String(Math.floor(seconds / 60)).padStart(2, "0");
+  const secs = String(seconds % 60).padStart(2, "0");
+  return `${minutes}:${secs}`;
+};
 
-  // Timer logic
-  useEffect(() => {
-    if (!isStarted) return;
+// Timer logic
+useEffect(() => {
+  if (!isStarted) return;
 
-    const timer = setInterval(() => {
-      setTimeLeft((prev) => {
-        if (prev <= 1) {
-          clearInterval(timer);
-          alert(`Time's up! Your final score is ${score} / ${totalScore}`);
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
+  const timer = setInterval(() => {
+    setTimeLeft((prev) => {
+      if (prev <= 1) {
+        clearInterval(timer);
+        alert(`Time's up! Your final score is ${score} / ${totalScore}`);
+        return 0;
+      }
+      return prev - 1;
+    });
+  }, 1000);
 
-    return () => clearInterval(timer);
-  }, [isStarted]);
+  return () => clearInterval(timer);
+}, [isStarted]);
+
+// In your JSX
+<p>Time Left: {formatTime(timeLeft)}</p>
+
 
   // Handle selecting an option
   const handleSelect = (option) => {
