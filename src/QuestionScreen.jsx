@@ -35,14 +35,13 @@ export default function QuestionScreen({
 </div>
 
 {/* Progress Bar */}
-<ProgressBar current={questionNumber} total={totalQuestions} />
+<ProgressBar
+  current={questionNumber}
+  total={totalQuestions}
+  score={score}
+  totalScore={totalScore}
+/>
 
-
-        {/* Question Progress + Score */}
-        <div className="flex justify-between items-center text-sm text-gray-400 mb-2">
-          <p>Question {questionNumber} / {totalQuestions}</p>
-          <p>Score: {score} / {totalScore}</p>
-        </div>
 
         {/* Question */}
         <h2 className="text-xl font-semibold mb-6">{question}</h2>
