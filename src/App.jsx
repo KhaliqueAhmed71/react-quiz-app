@@ -1,46 +1,36 @@
 import React, { useState, useEffect } from "react";
 import questions from "./questions";
 import QuestionScreen from "./QuestionScreen";
-import StartScreen from "./StartScreen"; // Make sure this exists
+import StartScreen from "./StartScreen";
 
 function App() {
-  const [isStarted, setIsStarted] = useState(false); // NEW
+  const [isStarted, setIsStarted] = useState(false);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState(null);
   const [score, setScore] = useState(0);
- const [timeLeft, setTimeLeft] = useState(450); // 7 min 30 sec
-const currentQuestion = questions[currentQuestionIndex];
-const totalQuestions = questions.length;
-const totalScore = questions.reduce((acc, q) => acc + q.points, 0);
+  const [timeLeft, setTimeLeft] = useState(450); // 7 min 30 sec
 
-// Helper to convert seconds to MM:SS
-const formatTime = (seconds) => {
-  const minutes = String(Math.floor(seconds / 60)).padStart(2, "0");
-  const secs = String(seconds % 60).padStart(2, "0");
-  return `${minutes}:${secs}`;
-};
+  const currentQuestion = questions[currentQuestionIndex];
+  const totalQuestions = questions.length;
+  const totalScore = questions.reduce((acc, q) => acc + q.points, 0);
 
-// Timer logic
-useEffect(() => {
-  if (!isStarted) return;
+  // Timer logic
+  useEffect(() => {
+    if (!isStarted) return;
 
-  const timer = setInterval(() => {
-    setTimeLeft((prev) => {
-      if (prev <= 1) {
-        clearInterval(timer);
-        alert(`Time's up! Your final score is ${score} / ${totalScore}`);
-        return 0;
-      }
-      return prev - 1;
-    });
-  }, 1000);
+    const timer = setInterval(() => {
+      setTimeLeft((prev) => {
+        if (prev <= 1) {
+          clearInterval(timer);
+          alert(`Time's up! Your final score is ${score} / ${totalScore}`);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
 
-  return () => clearInterval(timer);
-}, [isStarted]);
-
-// In your JSX
-<p>Time Left: {formatTime(timeLeft)}</p>
-
+    return () => clearInterval(timer);
+  }, [isStarted]);
 
   // Handle selecting an option
   const handleSelect = (option) => {
@@ -65,6 +55,11 @@ useEffect(() => {
     setIsStarted(true);
   };
 
+  // Format time (mm:ss)
+  const minutes = Math.floor(timeLeft / 60);
+  const seconds = timeLeft % 60;
+  const formattedTime = `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+
   if (!isStarted) {
     return <StartScreen onStart={handleStart} />;
   }
@@ -80,7 +75,7 @@ useEffect(() => {
       correctAnswer={currentQuestion.correctAnswer}
       score={score}
       totalScore={totalScore}
-      timeLeft={timeLeft}
+      timeLeft={formattedTime} // 👈 pass formatted string like "7:30"
       onNext={handleNext}
     />
   );
