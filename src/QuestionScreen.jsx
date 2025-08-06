@@ -1,4 +1,6 @@
 import React from "react";
+import ProgressBar from "./components/ProgressBar";
+
 
 export default function QuestionScreen({
   questionNumber,
@@ -21,24 +23,20 @@ export default function QuestionScreen({
     <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center px-4 py-8">
       <div className="w-full max-w-2xl">
         {/* Header */}
-        <div className="flex justify-between items-center mb-4">
-          <div className="flex items-center gap-8">
-            <img
-              src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg"
-              alt="Logo"
-              className="w-25 h-25"
-            />
-            <h1 className="text-7xl font-bold font-[DotGothic16]">The React Quiz</h1>
-          </div>
-        </div>
+<div className="flex justify-between items-center mb-4">
+  <div className="flex items-center gap-8">
+    <img
+      src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg"
+      alt="Logo"
+      className="w-25 h-25"
+    />
+    <h1 className="text-7xl font-bold font-[DotGothic16]">The React Quiz</h1>
+  </div>
+</div>
 
-        {/* Score Bar */}
-        <div className="relative w-full h-2 bg-gray-700 rounded-full mb-4">
-          <div
-            className="h-full bg-blue-500 rounded-full"
-            style={{ width: `${(score / totalScore) * 100}%` }}
-          />
-        </div>
+{/* Progress Bar */}
+<ProgressBar current={questionNumber} total={totalQuestions} />
+
 
         {/* Question Progress + Score */}
         <div className="flex justify-between items-center text-sm text-gray-400 mb-2">
