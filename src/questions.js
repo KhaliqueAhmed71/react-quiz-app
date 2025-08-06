@@ -127,7 +127,7 @@ const questions = [
       "False",
       "In depends on the code in the effect",
     ],
-    correctOption: "True",
+    correctAnswer: "True",
     points: 30,
   },
 
@@ -154,8 +154,6 @@ const questions = [
     correctAnswer: "All state and props referenced in the effect",
     points: 30,
   },
-
-  
 
   // Add more questions here...
 ];

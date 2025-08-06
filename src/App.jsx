@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import questions from "./questions";
 import QuestionScreen from "./QuestionScreen";
 import StartScreen from "./StartScreen";
+import ResultScreen from "./ResultScreen";
 
 function App() {
   const [isStarted, setIsStarted] = useState(false);
@@ -9,24 +10,31 @@ function App() {
   const [selectedOption, setSelectedOption] = useState(null);
   const [score, setScore] = useState(0);
   const [timeLeft, setTimeLeft] = useState(450); // 7 min 30 sec
+  const [isFinished, setIsFinished] = useState(false);
+  const [correctQuestionsCount, setCorrectQuestionsCount] = useState(0);
+
+  const [highScore, setHighScore] = useState(() => {
+    return parseInt(localStorage.getItem("highScore")) || 0;
+  });
 
   const currentQuestion = questions[currentQuestionIndex];
   const totalQuestions = questions.length;
   const totalScore = questions.reduce((acc, q) => acc + q.points, 0);
 
+  // Format time
+  const formattedTime = `${Math.floor(timeLeft / 60)
+    .toString()
+    .padStart(2, "0")}:${(timeLeft % 60).toString().padStart(2, "0")}`;
+
   // Timer logic
   useEffect(() => {
     if (!isStarted) return;
-
-    console.log("====================================");
-    console.log(totalQuestions);
-    console.log("====================================");
 
     const timer = setInterval(() => {
       setTimeLeft((prev) => {
         if (prev <= 1) {
           clearInterval(timer);
-          alert(`Time's up! Your final score is ${score} / ${totalScore}`);
+          setIsFinished(true);
           return 0;
         }
         return prev - 1;
@@ -36,41 +44,63 @@ function App() {
     return () => clearInterval(timer);
   }, [isStarted]);
 
-  // Handle selecting an option
+  // Finalize quiz and update high score
+  const finishQuiz = () => {
+    setIsFinished(true);
+    if (score > highScore) {
+      setHighScore(score);
+      localStorage.setItem("highScore", score);
+    }
+  };
+
+  // Select an option
   const handleSelect = (option) => {
     setSelectedOption(option);
     if (option === currentQuestion.correctAnswer) {
       setScore((prev) => prev + currentQuestion.points);
+      setCorrectQuestionsCount((prev) => prev + 1); // ✅ Count correct questions
     }
   };
 
-  // Handle moving to next question
+  // Move to next question
   const handleNext = () => {
     if (currentQuestionIndex < totalQuestions - 1) {
       setCurrentQuestionIndex((prev) => prev + 1);
       setSelectedOption(null);
     } else {
-      alert(`Quiz finished! Your final score is ${score} / ${totalScore}`);
+      finishQuiz();
     }
   };
 
-  // Start Quiz
-  const handleStart = () => {
-    setIsStarted(true);
+  // Restart quiz
+  const handleRestart = () => {
+    setIsStarted(false);
+    setCurrentQuestionIndex(0);
+    setSelectedOption(null);
+    setScore(0);
+    setTimeLeft(450);
+    setIsFinished(false);
+    setCorrectQuestionsCount(0); // ✅ Reset correct count
   };
 
-  // Format time (mm:ss)
-  const minutes = Math.floor(timeLeft / 60);
-  const seconds = timeLeft % 60;
-  const formattedTime = `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
-
   if (!isStarted) {
-    return <StartScreen onStart={handleStart} />;
+    return <StartScreen onStart={() => setIsStarted(true)} />;
+  }
+
+  if (isFinished) {
+    return (
+      <ResultScreen
+        score={score}
+        highScore={highScore}
+        totalMarks={totalScore}
+        onRestart={handleRestart}
+      />
+    );
   }
 
   return (
     <QuestionScreen
-      questionNumber={currentQuestionIndex + 1}
+      questionNumber={correctQuestionsCount} // ✅ Use correct answers for progress
       totalQuestions={totalQuestions}
       question={currentQuestion.question}
       options={currentQuestion.options}
@@ -79,7 +109,7 @@ function App() {
       correctAnswer={currentQuestion.correctAnswer}
       score={score}
       totalScore={totalScore}
-      timeLeft={formattedTime} // 👈 pass formatted string like "7:30"
+      timeLeft={formattedTime}
       onNext={handleNext}
     />
   );

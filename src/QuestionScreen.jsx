@@ -39,7 +39,7 @@ export default function QuestionScreen({
 
 
         {/* Question Progress + Score */}
-        <div className="flex justify-between items-center text-sm text-gray-400 mb-2">
+        <div className="flex justify-between items-center text-sm text-gray-300 mb-6">
           <p>Question {questionNumber} / {totalQuestions}</p>
           <p>Score: {score} / {totalScore}</p>
         </div>
