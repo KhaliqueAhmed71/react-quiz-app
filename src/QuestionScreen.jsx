@@ -66,7 +66,7 @@ export default function QuestionScreen({
               <button
                 key={option}
                 onClick={() => !selectedOption && onSelect(option)}
-                className={`w-full text-left px-4 py-3 rounded-lg ${bgColor} hover:translate-x-2 cursor-pointer transition-all duration-200`}
+                className={`w-full text-left px-4 py-3 rounded-full ${bgColor} hover:translate-x-2 cursor-pointer transition-all duration-200`}
               >
                 {option}
               </button>
@@ -76,11 +76,11 @@ export default function QuestionScreen({
 
         {/* Bottom: Time + Next */}
         <div className="mt-6 flex justify-between items-center">
-          <div className="text-sm text-gray-300">Time Left: {timeLeft}</div>
+          <div className="text-sm text-gray-300"> <button className="bg-gray-800 text-white px-6 py-2 rounded-full"> {timeLeft} </button></div>
           {selectedOption && (
             <button
               onClick={onNext}
-              className="bg-gray-500 text-white px-6 py-2 rounded-lg hover:bg-gray-700 transition cursor-pointer"
+              className="bg-gray-600 text-white px-6 py-2 rounded-full hover:bg-gray-800 transition cursor-pointer"
             >
               Next
             </button>
