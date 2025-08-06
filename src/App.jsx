@@ -2,13 +2,20 @@ import React, { useState, useEffect } from "react";
 import questions from "./questions";
 import QuestionScreen from "./QuestionScreen";
 import StartScreen from "./StartScreen"; // Make sure this exists
+import ResultScreen from "./ResultScreen";
+
 
 function App() {
   const [isStarted, setIsStarted] = useState(false); // NEW
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState(null);
   const [score, setScore] = useState(0);
+  const [highScore, setHighScore] = useState(() => {
+    const stored = localStorage.getItem("highScore");
+    return stored ? parseInt(stored) : 0;
+  });
   const [timeLeft, setTimeLeft] = useState(450); // 7 min 30 sec = 450 seconds
+  const [isFinished, setIsFinished] = useState(false);
 
   const currentQuestion = questions[currentQuestionIndex];
   const totalQuestions = questions.length;
@@ -26,7 +33,7 @@ function App() {
       setTimeLeft((prev) => {
         if (prev <= 1) {
           clearInterval(timer);
-          alert(`Time's up! Your final score is ${score} / ${totalScore}`);
+          setIsFinished(true);
           return 0;
         }
         return prev - 1;
@@ -35,6 +42,15 @@ function App() {
 
     return () => clearInterval(timer);
   }, [isStarted]);
+
+   // ✅ Finalize quiz and update high score
+  const finishQuiz = () => {
+    setIsFinished(true);
+    if (score > highScore) {
+      setHighScore(score);
+      localStorage.setItem("highScore", score);
+    }
+  };
 
   // Handle selecting an option
   const handleSelect = (option) => {
@@ -50,7 +66,7 @@ function App() {
       setCurrentQuestionIndex((prev) => prev + 1);
       setSelectedOption(null);
     } else {
-      alert(`Quiz finished! Your final score is ${score} / ${totalScore}`);
+      finishQuiz(); 
     }
   };
 
@@ -58,10 +74,29 @@ function App() {
   const handleStart = () => {
     setIsStarted(true);
   };
+  const handleRestart = () => {
+  setIsStarted(false);       // 👈 back to StartScreen
+  setIsFinished(false);      // 👈 end result screen
+  setCurrentQuestionIndex(0);
+  setSelectedOption(null);
+  setScore(0);
+  setTimeLeft(450);          // ⏱ reset timer
+};
 
   if (!isStarted) {
     return <StartScreen onStart={handleStart} />;
   }
+
+  if (isFinished) {
+  return (
+    <ResultScreen
+      score={score}
+      highScore={highScore}
+      totalMarks={totalScore}
+      onRestart={handleRestart}
+    />
+  );
+}
 
   return (
     <QuestionScreen
